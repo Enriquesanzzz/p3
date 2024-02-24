@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  #inicio-container, #juego-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+  }
+  
+  #logo-container {
+    width: 80%;
+    max-width: 1001px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #logo-container img {
+    width: 100%; /* Ocupa el ancho completo del contenedor padre */
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  #nombre-container, #juego-container {
+    width: 80%; /* Modificado para ser un porcentaje del contenedor padre */
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  #opciones-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  #opciones-container button {
+    margin: 5px;
+    padding: 10px;
+  }
+
+  /* En styles.css */
+.boton-enlace {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px; /* Ajusta según sea necesario */
+}
+
+.boton-enlace:hover {
+  background-color: #2980b9;
+}
+
+  
+  #bandera-container img {
+    width: 100%; /* Modificado para ocupar el ancho completo del contenedor padre */
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  #nombre-jugador {
+    margin-top: 0;
+  }
+  
+  footer {
+    margin-top: auto;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  

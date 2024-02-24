@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlagMaster - Enrique Sanz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="juego-container">
+    <div id="logo-container">
+      <img src="logoJuego.png" alt="Logo del juego" width="100" height="30">
+    </div>
+
+    <div id="juego-container">
+      <!-- ... Otras partes del código ... -->
+      
+      <p id="nombre-jugador">Partida de <span id="nombre-jugador-span"></span></p>
+      <p id="puntuacion">Puntuación: <span id="puntos">0</span></p>
+      
+      <!-- ... Otras partes del código ... -->
+    </div>
+    
+    <div id="bandera-container">
+      <!-- Aquí se mostrará la bandera -->
+      <img src="" alt="Bandera de" id="bandera-imagen">
+    </div>
+
+    <div id="respuesta-container">
+      <label for="respuesta-input">Nombre de la Bandera (en Inglés):</label>
+      <input list="opciones-paises" type="text" id="respuesta-input" placeholder="Escribe tu respuesta">
+      <datalist id="opciones-paises"></datalist>
+      <button id="verificar-respuesta">Enviar Respuesta</button>
+      <p id="respuesta-mensaje"></p>
+    </div>
+
+    <a href="index.html" class="boton-enlace">Volver a Inicio</a>
+
+  </div>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Recupera el nombre del jugador del almacenamiento local
+      const storedNombreJugador = localStorage.getItem("nombreJugador");
+
+      if (storedNombreJugador) {
+        // Muestra el nombre del jugador en la página del juego
+        const nombreJugadorSpan = document.getElementById("nombre-jugador-span");
+        nombreJugadorSpan.textContent = storedNombreJugador;
+
+        // ... Resto del código ...
+      } else {
+        // Si no hay nombre de jugador almacenado, redirige a la página de inicio
+        window.location.href = 'index.html';
+      }
+    });
+
+    // Realizar la solicitud a la API de países
+    fetch('https://restcountries.com/v3.1/all')
+      .then(response => response.json())
+      .then(data => {
+        // Lógica del juego
+        const banderaImagen = document.getElementById('bandera-imagen');
+        const respuestaInput = document.getElementById('respuesta-input');
+        const verificarRespuestaButton = document.getElementById('verificar-respuesta');
+        const puntuacionElement = document.getElementById('puntuacion');
+        const respuestaMensaje = document.getElementById('respuesta-mensaje');
+        const opcionesPaises = document.getElementById('opciones-paises');
+
+        let puntuacion = 0;
+        let currentIndex;
+
+        function getRandomIndex() {
+          return Math.floor(Math.random() * data.length);
+        }
+
+        function mostrarSiguienteBandera() {
+          currentIndex = getRandomIndex();
+          const country = data[currentIndex];
+
+
+          // Obtener la URL del PNG de la bandera
+          const flagUrl = country.flags.png;
+
+          // Obtener el nombre común del país
+          const countryName = country.name.common;
+
+          // Mostrar la bandera
+          banderaImagen.src = flagUrl;
+
+          // Cargar opciones para el datalist
+          opcionesPaises.innerHTML = data.map(country => `<option value="${country.name.common}">`).join('');
+
+            setTimeout(() => {
+                respuestaInput.value = '';
+            }, 100);
+        
+          // Verificar la respuesta
+          function verificarRespuesta() {
+            const respuestaUsuario = respuestaInput.value.trim();
+            const respuestaCorrecta = countryName;
+
+            if (respuestaUsuario.toLowerCase() === respuestaCorrecta.toLowerCase()) {
+              // Respuesta correcta
+              respuestaMensaje.textContent = '¡Respuesta Correcta!';
+              puntuacion += 1; // Incrementar la puntuación
+
+              // Actualizar la puntuación en el DOM
+              puntuacionElement.textContent = `Puntuación: ${puntuacion}`;
+
+              if (puntuacion === 8) {
+                // Puntuación máxima alcanzada, mostrar mensaje emergente
+                alert('¡Felicidades! Has ganado la partida.');
+                // Reiniciar la puntuación y mostrar la siguiente bandera
+                puntuacion = 0;
+                puntuacionElement.textContent = `Puntuación: ${puntuacion}`;
+                mostrarSiguienteBandera();
+              } else {
+                // Mostrar la siguiente bandera
+                mostrarSiguienteBandera();
+              }
+            } else {
+              // Respuesta incorrecta
+              respuestaMensaje.textContent = `Respuesta Incorrecta. La respuesta correcta es: ${countryName}`;
+              // Mostrar la siguiente bandera en caso de respuesta incorrecta
+              mostrarSiguienteBandera();
+            }
+          }
+
+          // Asociar la función verificarRespuesta al clic del botón
+          verificarRespuestaButton.addEventListener('click', verificarRespuesta);
+        }
+
+        // Iniciar el juego mostrando la primera bandera
+        mostrarSiguienteBandera();
+
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+
+  </script>
+
+  <footer>
+    <p>&copy; 2024 | Desarrollado por Enrique Sanz Tur</p>
+  </footer>
+</body>
+</html>
